@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>9857D923-083D-42C5-B8A2-CAB7F1B683BE</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Utils.Torch</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)CommandModuleUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CommandOption.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyIgnoreAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileLoggingConfigurator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameLoopObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GameLoopObserverManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReportGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SimDropObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TorchPluginUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TorchUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VRageUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XmlUtils.cs" />
+  </ItemGroup>
+</Project>

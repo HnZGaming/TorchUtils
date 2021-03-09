@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>FE592CCB-484D-4323-8639-8CFB3FBF35AB</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Utils.General</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)AbsJsonConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ActionDisposable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ActionQueue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CollectionUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CsvDb.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DebugUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisposableCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DisposableUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ExpirationObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)HttpUrlBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LangUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LoggerUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MathUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObjectPool.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProcessUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ReflectionUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StringFloatConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StupidDb.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TaskUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ThreadSafeThrottle.cs" />
+  </ItemGroup>
+</Project>
