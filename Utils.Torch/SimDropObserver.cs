@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Sandbox.Game.Multiplayer;
@@ -30,6 +31,12 @@ namespace Utils.Torch
         public bool IsLaggierThan(double sim)
         {
             return _recentSims.Average() < sim;
+        }
+
+        public void Reset()
+        {
+            Array.Clear(_recentSims, 0, _recentSims.Length);
+            _intervalCount = 0;
         }
     }
 }
