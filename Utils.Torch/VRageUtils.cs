@@ -335,5 +335,16 @@ namespace Utils.Torch
                 await TaskUtils.MoveToThreadPool();
             }
         }
+
+        public static IEnumerable<IMyPlayer> GetBigOwnerPlayers(this MyCubeGrid self)
+        {
+            foreach (var bigOwnerId in self.BigOwners)
+            {
+                if (MySession.Static.Players.TryGetPlayerById(bigOwnerId, out var player))
+                {
+                    yield return player;
+                }
+            }
+        }
     }
 }
