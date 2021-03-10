@@ -7,6 +7,8 @@ Bunch of utility classes for Torch plugin development.
 
 ## How to copy into your Torch plugin project
 
-You can either just extract a zip into your project or import as a shared project.
+This is a Shared Project.
 
 What is a shared project? https://stackoverflow.com/questions/30634753
+
+You can either drop in the zip or git submodule.
