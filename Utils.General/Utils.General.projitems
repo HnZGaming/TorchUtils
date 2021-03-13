@@ -11,7 +11,6 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)AbsJsonConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ActionDisposable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ActionQueue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CollectionUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CsvDb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DebugUtils.cs" />

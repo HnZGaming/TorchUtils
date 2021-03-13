@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -274,6 +275,14 @@ namespace Utils.General
         public static IEnumerable<KeyValuePair<K, V1>> SelectValue<K, V0, V1>(this IReadOnlyDictionary<K, V0> self, Func<V0, V1> f)
         {
             return self.Select(p => new KeyValuePair<K, V1>(p.Key, f(p.Value)));
+        }
+
+        public static void Clear<T>(this ConcurrentQueue<T> self)
+        {
+            while (self.TryDequeue(out _))
+            {
+                //pass
+            }
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Utils.Torch
             base.Detach();
 
             _patchMgr.FreeContext(_patchContext);
+            GameLoopObserver.Release();
         }
     }
 }
