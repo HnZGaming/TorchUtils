@@ -53,6 +53,11 @@ namespace Utils.General
             return true;
         }
 
+        public static T GetElementAtOrElse<T>(this IReadOnlyList<T> self, int index, T defaultValue)
+        {
+            return self.TryGetElementAt(index, out var e) ? e : defaultValue;
+        }
+
         public static T GetFirstOrElse<T>(this IEnumerable<T> self, T defaultValue)
         {
             return self.TryGetFirst(out var t) ? t : defaultValue;
