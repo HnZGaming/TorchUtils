@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ReflectionUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringFloatConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StupidDb.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StupidDbIdAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TaskUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafeThrottle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)WindowsUtils.cs" />

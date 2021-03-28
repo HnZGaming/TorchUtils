@@ -1,46 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using NLog;
 
 namespace Utils.General
 {
     /// <summary>
     /// Stupid implementation of a single-file, document-based database.
-    /// A database file can contain multiple tables.
-    /// A table can contain multiple rows of a single type.
-    /// A row type can contain arbitrary data as long as supported by JSON format.
+    /// File can contain multiple instances of a single "document" type.
+    /// "Document" type can contain arbitrary data that can be parsed as JSON.
     /// </summary>
     /// <remarks>
-    /// Database file is human-readable JSON text, but should only be edited by this program.
-    /// Any "manual" changes to the file during the runtime may be overwritten by this program.
-    /// You can, however, edit the database file while the program is not running.
+    /// Database file is human-readable JSON text, but shouldn't be manually edited when the program is running.
     /// </remarks>
     /// <remarks>
-    /// A row type must contain exactly one ID string field that uniquely identifies the row.
-    /// An ID string field can be specified by an attribute.
+    /// "Document" type must contain one ID field (or property) that uniquely identifies each document.
+    /// ID must be `string` and must be specified by `[StupidDbId]` attribute.
     /// </remarks>
     /// <remarks>
-    /// Intended for a temporary and limited use only. Shouldn't be expected to process big data.
+    /// Shouldn't be used to process big data.
     /// </remarks>
-    public sealed class StupidDb
+    public sealed class StupidDb<T>
     {
-        /// <summary>
-        /// Attribute to specify an ID property of a row type.
-        /// Property type must be string and a row type must contain exactly one ID property.
-        /// </summary>
-        [AttributeUsage(AttributeTargets.Property)]
-        public sealed class IdAttribute : Attribute
-        {
-        }
-
+        readonly ILogger Log = LogManager.GetCurrentClassLogger();
         readonly string _filePath;
-        readonly Dictionary<Type, PropertyInfo> _cachedIdProperties;
-        readonly Dictionary<string, JToken> _ramCopy;
+        readonly PropertyInfo _idProperty;
+        readonly Dictionary<string, T> _ramCopy;
 
         /// <summary>
         /// Instantiate with a path to the database file.
@@ -51,8 +39,8 @@ namespace Utils.General
             filePath.ThrowIfNullOrEmpty(nameof(filePath));
 
             _filePath = filePath;
-            _cachedIdProperties = new Dictionary<Type, PropertyInfo>();
-            _ramCopy = new Dictionary<string, JToken>();
+            _idProperty = StupidDbIdAttribute.FindIdProperty<T>();
+            _ramCopy = new Dictionary<string, T>();
         }
 
         /// <summary>
@@ -62,6 +50,14 @@ namespace Utils.General
         {
             _ramCopy.Clear();
             Write();
+        }
+
+        /// <summary>
+        /// Reset RAM copy.
+        /// </summary>
+        public void Clear()
+        {
+            _ramCopy.Clear();
         }
 
         /// <summary>
@@ -77,62 +73,61 @@ namespace Utils.General
             {
                 var emptyText = JsonConvert.SerializeObject(_ramCopy);
                 File.WriteAllText(_filePath, emptyText);
+                return;
             }
-            else
+
+            try
             {
                 var fileText = File.ReadAllText(_filePath);
-                var copy = JsonConvert.DeserializeObject<Dictionary<string, JToken>>(fileText);
+                var copy = JsonConvert.DeserializeObject<Dictionary<string, T>>(fileText);
                 _ramCopy.AddRange(copy);
             }
-        }
-
-        /// <summary>
-        /// Get documents in specified table.
-        /// </summary>
-        /// <param name="tableName">Name of table.</param>
-        /// <typeparam name="T">Type of documents in the table.</typeparam>
-        /// <returns>Collection of documents in the table.</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<T> Query<T>(string tableName)
-        {
-            if (!_ramCopy.TryGetValue(tableName, out var tableToken))
+            catch (Exception e)
             {
-                return Enumerable.Empty<T>();
+                Log.Warn(e);
+                var emptyText = JsonConvert.SerializeObject(_ramCopy);
+                File.WriteAllText(_filePath, emptyText);
             }
-
-            var documents = tableToken.ToObject<Dictionary<string, T>>();
-            return documents.Values;
         }
 
         /// <summary>
-        /// Insert documents to specified table.
+        /// Get a document with the ID.
+        /// </summary>
+        /// <param name="id">ID of document.</param>
+        /// <param name="document">Document object if found otherwise null.</param>
+        /// <returns>Document found in the database specified by the ID.</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool TryQuery(string id, out T document)
+        {
+            return _ramCopy.TryGetValue(id, out document);
+        }
+
+        /// <summary>
+        /// Insert (or update) a document.
         /// </summary>
         /// <remarks>
-        /// Existing documents will be overwritten by new documents with an identical ID string.
+        /// An existing document will be overwritten by the new document with the ID if any.
         /// </remarks>
-        /// <param name="tableName">Name of the table to insert.</param>
-        /// <param name="documents">Collection of documents to insert.</param>
-        /// <typeparam name="T">Type of documents to insert.</typeparam>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void Insert<T>(string tableName, IEnumerable<T> documents)
+        public void Insert(T document)
         {
-            var table = GetTableObject<T>(tableName);
-
-            foreach (var document in documents)
-            {
-                var id = GetId(document);
-                table[id] = document;
-            }
-
-            var newTableToken = JToken.FromObject(table);
-            _ramCopy[tableName] = newTableToken;
+            var id = GetId(document);
+            _ramCopy[id] = document;
         }
 
-        Dictionary<string, T> GetTableObject<T>(string tableName)
+        /// <summary>
+        /// Insert (or update) documents.
+        /// </summary>
+        /// <remarks>
+        /// Existing documents will be overwritten by new documents with the ID if any.
+        /// </remarks>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void InsertAll(IEnumerable<T> documents)
         {
-            return _ramCopy.TryGetValue(tableName, out var tableToken)
-                ? tableToken.ToObject<Dictionary<string, T>>()
-                : new Dictionary<string, T>();
+            foreach (var document in documents)
+            {
+                Insert(document);
+            }
         }
 
         /// <summary>
@@ -145,62 +140,9 @@ namespace Utils.General
             File.WriteAllText(_filePath, text);
         }
 
-        string GetId(object row)
+        string GetId(T document)
         {
-            var keyProperty = GetOrFindIdProperty(row.GetType());
-            return (string) keyProperty.GetValue(row);
-        }
-
-        PropertyInfo GetOrFindIdProperty(Type type)
-        {
-            if (_cachedIdProperties.TryGetValue(type, out var idProperty))
-            {
-                return idProperty;
-            }
-
-            idProperty = FindIdProperty(type);
-            _cachedIdProperties[type] = idProperty;
-
-            return idProperty;
-        }
-
-        static PropertyInfo FindIdProperty(Type type)
-        {
-            var idPropertyInfo = (PropertyInfo) null;
-            foreach (var propertyInfo in type.GetProperties())
-            {
-                var idAttrFound = false;
-                foreach (var attr in propertyInfo.CustomAttributes)
-                {
-                    if (attr.AttributeType == typeof(IdAttribute))
-                    {
-                        if (propertyInfo.PropertyType != typeof(string))
-                        {
-                            throw new Exception($"Type \"{type}\" contains an invalid ID property. ID must be of string");
-                        }
-
-                        idAttrFound = true;
-                        break;
-                    }
-                }
-
-                if (idAttrFound)
-                {
-                    if (idPropertyInfo != null)
-                    {
-                        throw new Exception($"Type \"{type}\" contains multiple ID properties");
-                    }
-
-                    idPropertyInfo = propertyInfo;
-                }
-            }
-
-            if (idPropertyInfo == null)
-            {
-                throw new Exception($"Type \"{type}\" does not contain any ID properties");
-            }
-
-            return idPropertyInfo;
+            return (string) _idProperty.GetValue(document);
         }
     }
 }
