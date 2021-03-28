@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Utils.General
 {
-	internal abstract class AbsJsonConverter<T> : JsonConverter
+	public abstract class AbsJsonConverter<T> : JsonConverter
 	{
 		protected abstract T Parse(string str);
 		protected abstract string ReverseParse(T obj);

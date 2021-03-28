@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)SimDropObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TorchPluginUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TorchUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SerializableVector3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VRageUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XmlUtils.cs" />
   </ItemGroup>
