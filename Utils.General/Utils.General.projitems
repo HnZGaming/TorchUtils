@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)LangUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LoggerUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MathUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NullOr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProcessUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReflectionUtils.cs" />
