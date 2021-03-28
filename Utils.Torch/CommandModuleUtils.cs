@@ -15,6 +15,11 @@ namespace Utils.Torch
 {
     public static class CommandModuleUtils
     {
+        public static void EnsureInvokedByPlayer(this CommandModule self)
+        {
+            self.Context.Player.ThrowIfNull("Must be called by a player");
+        }
+
         public static void CatchAndReport(this CommandModule self, Action f)
         {
             try
