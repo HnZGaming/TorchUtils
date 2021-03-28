@@ -44,8 +44,15 @@ namespace Utils.General
 
         public static async Task RunUntilCancelledAsync(Func<CancellationToken, Task> f, CancellationToken canceller)
         {
-            await MoveToThreadPool(canceller);
-            await f(canceller);
+            try
+            {
+                await MoveToThreadPool(canceller);
+                await f(canceller);
+            }
+            catch (TaskCanceledException)
+            {
+                // pass
+            }
         }
 
         public static Task DelayMax(Stopwatch stopwatch, TimeSpan timeSpan, CancellationToken canceller = default)
