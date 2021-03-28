@@ -103,6 +103,15 @@ namespace Utils.General
         }
 
         /// <summary>
+        /// Get all documents in this database.
+        /// </summary>
+        /// <returns>All documents found in the database.</returns>
+        public IEnumerable<T> QueryAll()
+        {
+            return _ramCopy.Values;
+        }
+
+        /// <summary>
         /// Insert (or update) a document.
         /// </summary>
         /// <remarks>
