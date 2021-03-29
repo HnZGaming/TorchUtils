@@ -15,7 +15,7 @@ namespace Utils.Torch
         {
             var errorId = $"{_numberGenerator.Next(0, 999999):000000}";
             self.GetFullNameLogger().Error(e, errorId);
-            respond($"Oops, something broke. #{errorId}. Cause: \"{e.Message}\".");
+            respond($"Oops, something broke. \"{e.Message}\" #{errorId}");
         }
     }
 }
