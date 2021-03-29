@@ -113,7 +113,7 @@ namespace Utils.Torch
             return onlinePlayer.PromoteLevel >= MyPromoteLevel.Admin;
         }
 
-        public static ulong GetAdminSteamId()
+        public static ulong GetAdminSteamIds()
         {
             if (!MySandboxGame.ConfigDedicated.Administrators.TryGetFirst(out var adminSteamIdStr)) return 0L;
             if (!ulong.TryParse(adminSteamIdStr, out var adminSteamId)) return 0L;

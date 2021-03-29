@@ -102,6 +102,11 @@ namespace Utils.General
             return _ramCopy.TryGetValue(id, out document);
         }
 
+        public T QueryOrDefault(string id, T defaultValue = default)
+        {
+            return TryQuery(id, out var d) ? d : defaultValue;
+        }
+
         /// <summary>
         /// Get all documents in this database.
         /// </summary>
