@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Sandbox.Game.Multiplayer;
 using Sandbox.Game.Screens.Helpers;
+using Torch.Managers.PatchManager;
 using Torch.Utils;
 
-namespace Utils.TorchEntityGps
+namespace Utils.Torch.Patches
 {
+    [PatchShim]
     public static class MyGpsCollection_PlayerGpss
     {
 #pragma warning disable 649

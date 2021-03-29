@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)EntityIdGpsCollection.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MyGpsCollection_PlayerGpss.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)PrefixedGpsCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utils.cs" />
   </ItemGroup>

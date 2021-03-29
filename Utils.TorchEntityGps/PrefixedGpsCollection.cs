@@ -4,6 +4,7 @@ using System.Linq;
 using Sandbox.Game.Multiplayer;
 using Sandbox.Game.Screens.Helpers;
 using Sandbox.Game.World;
+using Utils.Torch.Patches;
 using VRage.Game.ModAPI;
 
 namespace Utils.TorchEntityGps
