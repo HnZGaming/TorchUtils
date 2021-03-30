@@ -13,14 +13,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)CommandOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyIgnoreAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileLoggingConfigurator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GameLoopObserver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)GameLoopObserverManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGpsCollection_PlayerGpss.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\MySession_Update.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReportGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SimDropObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TorchPluginUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TorchUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SerializableVector3.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VRageUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)XmlUtils.cs" />
   </ItemGroup>

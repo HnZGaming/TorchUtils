@@ -15,11 +15,15 @@ namespace Utils.Torch
 {
     public static class CommandModuleUtils
     {
-        public static async void CatchAndReport(this CommandModule self, Action f)
+        public static void EnsureInvokedByPlayer(this CommandModule self)
+        {
+            self.Context.Player.ThrowIfNull("Must be called by a player");
+        }
+
+        public static void CatchAndReport(this CommandModule self, Action f)
         {
             try
             {
-                await TaskUtils.MoveToThreadPool();
                 f();
             }
             catch (Exception e)
@@ -32,7 +36,6 @@ namespace Utils.Torch
         {
             try
             {
-                await TaskUtils.MoveToThreadPool();
                 await f();
             }
             catch (Exception e)

@@ -9,6 +9,11 @@ namespace Utils.General
 {
     internal static class CollectionUtils
     {
+        public static IEnumerable<T> Flatten<T>(this IEnumerable<IEnumerable<T>> self)
+        {
+            return self.SelectMany(e => e);
+        }
+        
         public static bool TryGetFirst<T>(this IEnumerable<T> self, Func<T, bool> f, out T foundValue)
         {
             foreach (var t in self)

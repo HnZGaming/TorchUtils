@@ -15,11 +15,17 @@ using VRage.Game.Entity;
 using VRage.Game.ModAPI;
 using VRage.Game.ObjectBuilders.Components;
 using VRage.ModAPI;
+using VRageMath;
 
 namespace Utils.Torch
 {
     internal static class VRageUtils
     {
+        public static string ToShortString(this Vector3D self)
+        {
+            return $"X:{self.X:0.0} Y:{self.Y:0.0} Z:{self.Z:0.0}";
+        }
+        
         public static MyFaction GetOwnerFactionOrNull(this MyFactionCollection self, IMyCubeGrid grid)
         {
             if (grid.BigOwners.TryGetFirst(out var ownerId))
@@ -107,7 +113,7 @@ namespace Utils.Torch
             return onlinePlayer.PromoteLevel >= MyPromoteLevel.Admin;
         }
 
-        public static ulong GetAdminSteamId()
+        public static ulong GetAdminSteamIds()
         {
             if (!MySandboxGame.ConfigDedicated.Administrators.TryGetFirst(out var adminSteamIdStr)) return 0L;
             if (!ulong.TryParse(adminSteamIdStr, out var adminSteamId)) return 0L;

@@ -21,11 +21,13 @@
     <Compile Include="$(MSBuildThisFileDirectory)LangUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LoggerUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MathUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NullOr.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProcessUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReflectionUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringFloatConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StupidDb.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StupidDbIdAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TaskUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafeThrottle.cs" />
   </ItemGroup>
