@@ -28,6 +28,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)StupidDb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TaskUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafeThrottle.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)WindowsUtils.cs" />
   </ItemGroup>
 </Project>
