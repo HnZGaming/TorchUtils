@@ -68,6 +68,11 @@ namespace Utils.General
             return self.TryGetFirst(out var t) ? t : defaultValue;
         }
 
+        public static T GetElementAtIndexOrElse<T>(this IReadOnlyList<T> self, int index, T defaultValue)
+        {
+            return self.TryGetElementAt(index, out var e) ? e : defaultValue;
+        }
+
         public static void Fill<T>(this IList<T> self, T element)
         {
             for (var i = 0; i < self.Count; i++)
