@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using Torch.Commands;
 using Torch.Commands.Permissions;
 using Torch.Views;
@@ -15,6 +16,8 @@ namespace Utils.Torch
 {
     public static class CommandModuleUtils
     {
+        static readonly ILogger Log = LogManager.GetCurrentClassLogger();
+
         public static void EnsureInvokedByPlayer(this CommandModule self)
         {
             self.Context.Player.ThrowIfNull("Must be called by a player");
@@ -79,15 +82,17 @@ namespace Utils.Torch
 
         public static void GetOrSetProperty(this CommandModule self, object config)
         {
+            Log.Info(self.Context.Args.ToStringSeq());
+
             if (!self.Context.Args.TryGetFirst(out var propertyNameOrIndex))
             {
-                self.ShowConfigurableProperties(config);
+                self.ShowAllConfigurableProperties(config);
                 return;
             }
 
             if (propertyNameOrIndex == "all")
             {
-                self.ShowConfigurablePropertyValues(config);
+                self.ShowAllConfigurablePropertyValues(config);
                 return;
             }
 
@@ -101,7 +106,7 @@ namespace Utils.Torch
                 if (maxPropertyIndex < propertyIndex)
                 {
                     self.Context.Respond($"Index out of bounds; max: {maxPropertyIndex}", Color.Red);
-                    self.ShowConfigurableProperties(config);
+                    self.ShowAllConfigurableProperties(config);
                     return;
                 }
 
@@ -111,7 +116,7 @@ namespace Utils.Torch
             if (!properties.TryGetFirst(p => p.Name == propertyName, out var property))
             {
                 self.Context.Respond($"Property not found: \"{propertyName}\"", Color.Red);
-                self.ShowConfigurableProperties(config);
+                self.ShowAllConfigurableProperties(config);
                 return;
             }
 
@@ -119,22 +124,28 @@ namespace Utils.Torch
                 !prop.IsVisibleTo(promoLevel))
             {
                 self.Context.Respond($"Property not visible: \"{propertyName}\"", Color.Red);
-                self.ShowConfigurableProperties(config);
+                self.ShowAllConfigurableProperties(config);
                 return;
             }
 
-            if (promoLevel == MyPromoteLevel.Admin &&
-                self.Context.Args.TryGetElementAt(1, out var arg))
+            if (self.Context.Args.TryGetElementAt(1, out var arg))
             {
+                if (promoLevel != MyPromoteLevel.Admin)
+                {
+                    self.Context.Respond("Admin only", Color.Red);
+                    return;
+                }
+
                 var newValue = ParsePrimitive(property.PropertyType, arg);
                 property.SetValue(config, newValue);
+                self.Context.Respond($"set new value to {propertyName} -> {newValue}");
             }
 
             var value = property.GetValue(config);
             self.Context.Respond($"> {propertyName}: {value}");
         }
 
-        static void ShowConfigurablePropertyValues(this CommandModule self, object config)
+        static void ShowAllConfigurablePropertyValues(this CommandModule self, object config)
         {
             var promoLevel = self.Context.Player?.PromoteLevel ?? MyPromoteLevel.Admin;
             var properties = GetConfigurableProperties(config, promoLevel).ToArray();
@@ -158,7 +169,7 @@ namespace Utils.Torch
             self.Context.Respond(msgBuilder.ToString());
         }
 
-        static void ShowConfigurableProperties(this CommandModule self, object config)
+        static void ShowAllConfigurableProperties(this CommandModule self, object config)
         {
             var promoLevel = self.Context.Player?.PromoteLevel ?? MyPromoteLevel.Admin;
             var properties = GetConfigurableProperties(config, promoLevel).ToArray();
