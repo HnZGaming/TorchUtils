@@ -158,5 +158,10 @@ namespace Utils.General
         {
             return (string) _idProperty.GetValue(document);
         }
+
+        public bool Contains(string id)
+        {
+            return _ramCopy.ContainsKey(id);
+        }
     }
 }
