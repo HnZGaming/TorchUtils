@@ -22,8 +22,16 @@ namespace Utils.TorchEntityGps
 
         // we use DisplayName because players can't manipulate/fake it in any way
         // but it takes up space so you should keep the prefix very short
-        bool IsOurs(in MyGps g) => g.DisplayName.StartsWith(_prefix);
-        void MarkOurs(ref MyGps g) => g.DisplayName = $"{_prefix}{g.DisplayName}";
+        bool IsOurs(MyGps g)
+        {
+            return g.DisplayName.StartsWith(_prefix);
+        }
+
+        void MarkOurs(MyGps g)
+        {
+            if (IsOurs(g)) return;
+            g.DisplayName = $"{_prefix}{g.DisplayName}";
+        }
 
         public IEnumerable<(long IdentityId, MyGps Gps)> GetAllGpss()
         {
@@ -53,7 +61,7 @@ namespace Utils.TorchEntityGps
 
         public void SendAddGps(long identityId, MyGps gps, bool playSound)
         {
-            MarkOurs(ref gps);
+            MarkOurs(gps);
             Native.SendAddGps(identityId, ref gps, gps.EntityId, playSound);
         }
 
