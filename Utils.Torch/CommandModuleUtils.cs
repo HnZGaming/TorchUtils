@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Torch.API.Managers;
 using Torch.Commands;
 using Torch.Commands.Permissions;
 using Torch.Views;
@@ -66,11 +67,33 @@ namespace Utils.Torch
 
             var msgBuilder = new StringBuilder();
             msgBuilder.AppendLine("Commands:");
-            foreach (var command in commands)
+
+            var commandManager = self.Context.Torch.CurrentSession.Managers.GetManager<CommandManager>();
+            var foundAnyCommands = false;
+            foreach (var node in commandManager.Commands.WalkTree())
             {
-                var name = command.Name;
+                var command = node.Command;
+                if (command == null) continue;
+
+                if (command.Module != self.GetType()) continue;
+
+                // check access level
+                if (self.Context.Player is IMyPlayer player &&
+                    player.PromoteLevel < command.MinimumPromoteLevel)
+                {
+                    continue;
+                }
+
+                var syntaxHelp = command.SyntaxHelp;
                 var description = command.Description.OrNull() ?? "no description";
-                msgBuilder.AppendLine($"{name} -- {description}");
+                msgBuilder.AppendLine($"{syntaxHelp} -- {description}");
+                foundAnyCommands = true;
+            }
+
+            if (!foundAnyCommands)
+            {
+                self.Context.Respond("No accessible commands found");
+                return;
             }
 
             self.Context.Respond(msgBuilder.ToString());
