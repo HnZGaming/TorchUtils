@@ -71,5 +71,14 @@ namespace Utils.General
                 throw new TimeoutException();
             }
         }
+
+        public static async Task Delay(Func<TimeSpan> delay, TimeSpan interval, CancellationToken cancellationToken = default)
+        {
+            var startTime = DateTime.UtcNow;
+            while (DateTime.UtcNow - startTime < delay())
+            {
+                await Task.Delay(interval, cancellationToken);
+            }
+        }
     }
 }
