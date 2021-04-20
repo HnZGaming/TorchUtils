@@ -26,9 +26,14 @@ namespace Utils.Torch
             {
                 f();
             }
+            catch (UserFacingException e)
+            {
+                self.Context.Respond(e.Message, Color.Yellow);
+            }
             catch (Exception e)
             {
-                ReportGenerator.LogAndRespond(self, e, m => self.Context.Respond(m, Color.Red));
+                var id = ReportGenerator.Log(self, e);
+                self.Context.Respond($"Something broke: \"{e.Message}\"; {id}", Color.Red);
             }
         }
 
@@ -38,9 +43,14 @@ namespace Utils.Torch
             {
                 await f();
             }
+            catch (UserFacingException e)
+            {
+                self.Context.Respond(e.Message, Color.Yellow);
+            }
             catch (Exception e)
             {
-                ReportGenerator.LogAndRespond(self, e, m => self.Context.Respond(m, Color.Red));
+                var id = ReportGenerator.Log(self, e);
+                self.Context.Respond($"Something broke: \"{e.Message}\"; {id}", Color.Red);
             }
         }
 

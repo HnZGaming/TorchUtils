@@ -30,5 +30,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)StupidDbIdAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TaskUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafeThrottle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)UserFacingException.cs" />
   </ItemGroup>
 </Project>
