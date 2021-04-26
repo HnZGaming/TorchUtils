@@ -25,7 +25,7 @@ namespace Utils.Torch
         {
             return $"X:{self.X:0.0} Y:{self.Y:0.0} Z:{self.Z:0.0}";
         }
-        
+
         public static MyFaction GetOwnerFactionOrNull(this MyFactionCollection self, IMyCubeGrid grid)
         {
             if (grid.BigOwners.TryGetFirst(out var ownerId))
@@ -120,6 +120,18 @@ namespace Utils.Torch
             return adminSteamId;
         }
 
+        public static bool TryGetSteamId(this MyPlayerCollection self, long playerId, out ulong steamId)
+        {
+            if (self.TryGetPlayerById(playerId, out var player))
+            {
+                steamId = player.SteamId();
+                return steamId != 0;
+            }
+
+            steamId = 0;
+            return false;
+        }
+
         public static bool IsAdminGrid(this IMyCubeGrid self)
         {
             foreach (var bigOwnerId in self.BigOwners)
@@ -146,6 +158,11 @@ namespace Utils.Torch
             }
 
             return null;
+        }
+
+        public static bool IsTopMostParent<T>(this T entity) where T : class, IMyEntity
+        {
+            return entity.GetParentEntityOfType<T>() == entity;
         }
 
         public static ulong CurrentGameFrameCount => MySandboxGame.Static.SimulationFrameCounter;
