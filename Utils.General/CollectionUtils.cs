@@ -199,12 +199,29 @@ namespace Utils.General
         public static void IntersectWith<K, V>(this IDictionary<K, V> self, IEnumerable<K> other)
         {
             var otherSet = other as ISet<K> ?? new HashSet<K>(other);
-            foreach (var k in self.Keys.ToArray())
+            var removedKeys = new List<K>();
+
+            foreach (var (k, _) in self)
             {
                 if (!otherSet.Contains(k))
                 {
-                    self.Remove(k);
+                    removedKeys.Add(k);
                 }
+            }
+
+            foreach (var removedKey in removedKeys)
+            {
+                self.Remove(removedKey);
+            }
+        }
+
+        public static void IntersectWith<K, V>(this Dictionary<K, HashSet<V>> self, Dictionary<K, HashSet<V>> other)
+        {
+            self.IntersectWith(other.Keys);
+            foreach (var (key, valueCollection) in self)
+            {
+                var otherValueCollection = other[key];
+                valueCollection.IntersectWith(otherValueCollection);
             }
         }
 
@@ -248,6 +265,12 @@ namespace Utils.General
             }
 
             elements[key1] = element;
+        }
+
+        public static C GetOrAdd<K, V, C>(this IDictionary<K, C> self, K key) where C : ICollection<V>, new()
+        {
+            if (self.TryGetValue(key, out var c)) return c;
+            return self[key] = new C();
         }
 
         public static HashSet<T> ToSet<T>(this IEnumerable<T> self)
@@ -308,11 +331,6 @@ namespace Utils.General
             }
 
             return result;
-        }
-
-        public static IEnumerable<KeyValuePair<K, V1>> SelectValue<K, V0, V1>(this IReadOnlyDictionary<K, V0> self, Func<V0, V1> f)
-        {
-            return self.Select(p => new KeyValuePair<K, V1>(p.Key, f(p.Value)));
         }
 
         public static void Clear<T>(this ConcurrentQueue<T> self)
