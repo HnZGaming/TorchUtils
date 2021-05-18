@@ -100,6 +100,12 @@ namespace Utils.General
             self[key] = value + 1;
         }
 
+        public static void Increment<K>(this IDictionary<K, int> self, K key, int added)
+        {
+            self.TryGetValue(key, out var value);
+            self[key] = value + added;
+        }
+
         public static string ToStringTable(this DataTable self)
         {
             var builder = new StringBuilder();
