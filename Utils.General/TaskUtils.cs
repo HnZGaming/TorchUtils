@@ -80,5 +80,13 @@ namespace Utils.General
                 await Task.Delay(interval, cancellationToken);
             }
         }
+
+        public static async Task WaitUntil(Func<bool> condition, TimeSpan checkInterval, CancellationToken cancellationToken = default)
+        {
+            while (!cancellationToken.IsCancellationRequested && !condition())
+            {
+                await Task.Delay(checkInterval, cancellationToken);
+            }
+        }
     }
 }
