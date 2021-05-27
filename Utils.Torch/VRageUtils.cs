@@ -369,5 +369,14 @@ namespace Utils.Torch
                 }
             }
         }
+
+        public static IEnumerable<MyCubeGrid> GetAllCubeGrids()
+        {
+            foreach (var group in MyCubeGridGroups.Static.Logical.Groups)
+            foreach (var node in group.Nodes)
+            {
+                yield return node.NodeData;
+            }
+        }
     }
 }
