@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Havok;
 using Sandbox;
 using Sandbox.Engine.Physics;
 using Sandbox.Game.Entities;
@@ -60,7 +61,7 @@ namespace Utils.Torch
         {
             player = null;
             return self.TryGetPlayerId(id, out var playerId) &&
-                   self.TryGetPlayerById(playerId, out player);
+                self.TryGetPlayerById(playerId, out player);
         }
 
         public static bool IsConcealed(this IMyEntity entity)
@@ -195,7 +196,7 @@ namespace Utils.Torch
         {
             player = null;
             return grid.BigOwners.TryGetFirst(out var ownerId) &&
-                   MySession.Static.Players.TryGetPlayerById(ownerId, out player);
+                MySession.Static.Players.TryGetPlayerById(ownerId, out player);
         }
 
         public static bool IsNpcFaction(this MyFactionCollection self, string factionTag)
@@ -286,7 +287,7 @@ namespace Utils.Torch
         public static bool TryGetSelectedGrid(this IMyPlayer self, out MyCubeGrid selectedGrid)
         {
             return self.TryGetSeatedGrid(out selectedGrid) ||
-                   self.TryGetGridLookedAt(out selectedGrid);
+                self.TryGetGridLookedAt(out selectedGrid);
         }
 
         public static bool TryGetSeatedGrid(this IMyPlayer self, out MyCubeGrid selectedGrid)
@@ -370,6 +371,19 @@ namespace Utils.Torch
             }
         }
 
+        public static IEnumerable<IMyEntity> GetEntities(this HkWorld world)
+        {
+            var entities = new List<IMyEntity>();
+            foreach (var rigidBody in world.RigidBodies)
+            {
+                var body = rigidBody.GetBody();
+                var entity = body.Entity;
+                entities.Add(entity);
+            }
+
+            return entities;
+        }
+        
         public static IEnumerable<MyCubeGrid> GetAllCubeGrids()
         {
             foreach (var group in MyCubeGridGroups.Static.Logical.Groups)
