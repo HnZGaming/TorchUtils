@@ -221,6 +221,9 @@ namespace Utils.General
             }
         }
 
+        /// <summary>
+        /// Modifies the current Dictionary object to contain only elements that are present in that object and in the specified collection
+        /// </summary>
         public static void IntersectWith<K, V>(this Dictionary<K, HashSet<V>> self, Dictionary<K, HashSet<V>> other)
         {
             self.IntersectWith(other.Keys);
