@@ -53,6 +53,10 @@ namespace Utils.General
             {
                 // pass
             }
+            catch (OperationCanceledException)
+            {
+                // pass
+            }
         }
 
         public static Task DelayMax(Stopwatch stopwatch, TimeSpan timeSpan, CancellationToken canceller = default)
