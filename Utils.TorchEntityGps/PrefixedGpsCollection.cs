@@ -37,6 +37,8 @@ namespace Utils.TorchEntityGps
         {
             foreach (var (identityId, gps) in Native.GetAllGpss())
             {
+                if (gps == null) continue;
+
                 if (IsOurs(gps))
                 {
                     yield return (identityId, gps);
