@@ -61,18 +61,18 @@ namespace Utils.Torch
         {
             player = null;
             return self.TryGetPlayerId(id, out var playerId) &&
-                self.TryGetPlayerById(playerId, out player);
+                   self.TryGetPlayerById(playerId, out player);
         }
 
         public static bool IsConcealed(this IMyEntity entity)
         {
             // Concealment plugin uses `4` as a flag to prevent game from updating grids
-            return (long) (entity.Flags & (EntityFlags) 4) != 0;
+            return (long)(entity.Flags & (EntityFlags)4) != 0;
         }
 
         public static MyCubeGrid GetBiggestGrid(this IEnumerable<MyCubeGrid> grids)
         {
-            var myCubeGrid = (MyCubeGrid) null;
+            var myCubeGrid = (MyCubeGrid)null;
             var num = 0.0;
             foreach (var grid in grids)
             {
@@ -196,7 +196,7 @@ namespace Utils.Torch
         {
             player = null;
             return grid.BigOwners.TryGetFirst(out var ownerId) &&
-                MySession.Static.Players.TryGetPlayerById(ownerId, out player);
+                   MySession.Static.Players.TryGetPlayerById(ownerId, out player);
         }
 
         public static bool IsNpcFaction(this MyFactionCollection self, string factionTag)
@@ -287,7 +287,7 @@ namespace Utils.Torch
         public static bool TryGetSelectedGrid(this IMyPlayer self, out MyCubeGrid selectedGrid)
         {
             return self.TryGetSeatedGrid(out selectedGrid) ||
-                self.TryGetGridLookedAt(out selectedGrid);
+                   self.TryGetGridLookedAt(out selectedGrid);
         }
 
         public static bool TryGetSeatedGrid(this IMyPlayer self, out MyCubeGrid selectedGrid)
@@ -383,13 +383,65 @@ namespace Utils.Torch
 
             return entities;
         }
-        
+
         public static IEnumerable<MyCubeGrid> GetAllCubeGrids()
         {
             foreach (var group in MyCubeGridGroups.Static.Logical.Groups)
             foreach (var node in group.Nodes)
             {
                 yield return node.NodeData;
+            }
+        }
+
+        public static double GetValueAtIndex(this Vector3D self, int index) => index switch
+        {
+            0 => self.X,
+            1 => self.Y,
+            2 => self.Z,
+            _ => throw new IndexOutOfRangeException()
+        };
+
+        public static int GetValueAtIndex(this Vector3I self, int index) => index switch
+        {
+            0 => self.X,
+            1 => self.Y,
+            2 => self.Z,
+            _ => throw new IndexOutOfRangeException()
+        };
+
+        public static void SetValueAtIndex(this ref Vector3D self, int index, double value)
+        {
+            switch (index)
+            {
+                case 0:
+                    self.X = value;
+                    return;
+                case 1:
+                    self.Y = value;
+                    return;
+                case 2:
+                    self.Z = value;
+                    return;
+                default:
+                    throw new IndexOutOfRangeException();
+            }
+        }
+
+        public static void SetValueAtIndex(this ref Vector3I self, int index, int value)
+        {
+            switch (index)
+            {
+                case 0:
+                    self.X = value;
+                    return;
+                case 1:
+                    self.Y = value;
+                    return;
+                case 2:
+                    self.Z = value;
+                    return;
+                default:
+                    throw new IndexOutOfRangeException();
             }
         }
     }
