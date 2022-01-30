@@ -9,6 +9,7 @@
     <Import_RootNamespace>Utils.Torch</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)BlockTypePairCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandModuleUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CommandOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyAttribute.cs" />
