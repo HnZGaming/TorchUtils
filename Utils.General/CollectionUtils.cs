@@ -342,6 +342,23 @@ namespace Utils.General
             return result;
         }
 
+        public static void RemoveWhere<K, V>(this IDictionary<K, V> self, Func<K, V, bool> f)
+        {
+            var removedKeys = new List<K>();
+            foreach (var (k, v) in self)
+            {
+                if (f(k, v))
+                {
+                    removedKeys.Add(k);
+                }
+            }
+
+            foreach (var removedKey in removedKeys)
+            {
+                self.Remove(removedKey);
+            }
+        }
+
         public static void Clear<T>(this ConcurrentQueue<T> self)
         {
             while (self.TryDequeue(out _))
