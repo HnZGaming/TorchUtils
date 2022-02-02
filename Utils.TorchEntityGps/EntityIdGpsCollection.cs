@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using NLog;
 using Sandbox.Game.Screens.Helpers;
 
@@ -26,7 +25,6 @@ namespace Utils.TorchEntityGps
             _gpsCollection = new PrefixedGpsCollection(prefix);
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<MyGps> GetAllTrackedGpss()
         {
             return _gpsCollection.GetAllGpss().Select(g => g.Gps);
@@ -34,13 +32,11 @@ namespace Utils.TorchEntityGps
 
         // call this at the beginning of new session
         // otherwise GPSs from the last session will mess with us
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SendDeleteAllGpss()
         {
             _gpsCollection.SendDeleteAllGpss();
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
         public void SendReplaceAllTrackedGpss(IEnumerable<MyGps> newGpss, IEnumerable<long> targetIds)
         {
             Log.Trace("replacing all GPSs...");

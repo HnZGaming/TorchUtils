@@ -10,6 +10,7 @@ using Sandbox.Game.Entities;
 using Sandbox.Game.Multiplayer;
 using Sandbox.Game.Screens.Helpers;
 using Sandbox.Game.World;
+using Sandbox.ModAPI;
 using Utils.General;
 using VRage;
 using VRage.Game.Entity;
@@ -369,6 +370,27 @@ namespace Utils.Torch
                     yield return player;
                 }
             }
+        }
+
+        public static Task MoveToThreadPool(CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var source = new TaskCompletionSource<byte>();
+            MyAPIGateway.Parallel.Start(() =>
+            {
+                try
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    source.SetResult(0);
+                }
+                catch (Exception e)
+                {
+                    source.SetException(e);
+                }
+            });
+
+            return source.Task;
         }
 
         public static IEnumerable<IMyEntity> GetEntities(this HkWorld world)

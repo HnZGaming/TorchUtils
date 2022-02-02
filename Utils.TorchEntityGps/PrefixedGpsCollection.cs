@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Sandbox.Game.Multiplayer;
 using Sandbox.Game.Screens.Helpers;
 using Sandbox.Game.World;
+using Utils.Torch;
 using Utils.Torch.Patches;
 using VRage.Game.ModAPI;
 
@@ -35,6 +37,8 @@ namespace Utils.TorchEntityGps
 
         public IEnumerable<(long IdentityId, MyGps Gps)> GetAllGpss()
         {
+            Thread.CurrentThread.ThrowIfNotSessionThread();
+
             foreach (var (identityId, gps) in Native.GetAllGpss())
             {
                 if (gps == null) continue;
@@ -48,6 +52,8 @@ namespace Utils.TorchEntityGps
 
         public IEnumerable<MyGps> GetPlayerGpss(long identityId)
         {
+            Thread.CurrentThread.ThrowIfNotSessionThread();
+
             var gpss = new List<IMyGps>();
             Native.GetGpsList(identityId, gpss);
             return gpss.Cast<MyGps>().Where(g => IsOurs(g));
@@ -55,6 +61,8 @@ namespace Utils.TorchEntityGps
 
         public void SendDeleteAllGpss()
         {
+            Thread.CurrentThread.ThrowIfNotSessionThread();
+
             foreach (var (identityId, gps) in GetAllGpss().ToArray())
             {
                 Native.SendDelete(identityId, gps.Hash);
@@ -63,12 +71,16 @@ namespace Utils.TorchEntityGps
 
         public void SendAddGps(long identityId, MyGps gps, bool playSound)
         {
+            Thread.CurrentThread.ThrowIfNotSessionThread();
+
             MarkOurs(gps);
             Native.SendAddGps(identityId, ref gps, gps.EntityId, playSound);
         }
 
         public void SendDeleteGps(long identityId, int gpsHash)
         {
+            Thread.CurrentThread.ThrowIfNotSessionThread();
+
             var gps = Native.GetGps(gpsHash);
             if (!IsOurs(gps))
             {
