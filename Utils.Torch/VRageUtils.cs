@@ -181,6 +181,26 @@ namespace Utils.Torch
                 throw new Exception($"not main thread; yours: {self.ManagedThreadId}, main: {MySandboxGame.Static.UpdateThread.ManagedThreadId}");
             }
         }
+        
+        public static Task MoveToGameLoop(CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var taskSrc = new TaskCompletionSource<byte>();
+            MyAPIGateway.Utilities.InvokeOnGameThread(() =>
+            {
+                try
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+                    taskSrc.SetResult(0);
+                }
+                catch (Exception e)
+                {
+                    taskSrc.SetException(e);
+                }
+            });
+
+            return taskSrc.Task;
+        }
 
         public static void SendAddGps(this MyGpsCollection self, long identityId, MyGps gps, bool playSound)
         {
@@ -270,7 +290,7 @@ namespace Utils.Torch
 
             try
             {
-                await GameLoopObserver.MoveToGameLoop();
+                await MoveToGameLoop();
 
                 if (self.TryGetGridLookedAt(out var lookedGrid))
                 {
@@ -346,7 +366,7 @@ namespace Utils.Torch
         {
             try
             {
-                await GameLoopObserver.MoveToGameLoop();
+                await MoveToGameLoop();
 
                 if (MyEntities.TryGetEntityByName(name, out var entity) && entity is T typedEntity)
                 {
