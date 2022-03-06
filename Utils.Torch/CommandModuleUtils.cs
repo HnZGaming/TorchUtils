@@ -27,10 +27,6 @@ namespace Utils.Torch
             {
                 f();
             }
-            catch (UserFacingException e)
-            {
-                self.Context.Respond(e.Message, Color.Yellow);
-            }
             catch (Exception e)
             {
                 var id = ReportGenerator.Log(self, e);
@@ -43,10 +39,6 @@ namespace Utils.Torch
             try
             {
                 await f();
-            }
-            catch (UserFacingException e)
-            {
-                self.Context.Respond(e.Message, Color.Yellow);
             }
             catch (Exception e)
             {
@@ -78,7 +70,7 @@ namespace Utils.Torch
                 if (command.Module != self.GetType()) continue;
 
                 // check access level
-                if (self.Context.Player is IMyPlayer player &&
+                if (self.Context.Player is { } player &&
                     player.PromoteLevel < command.MinimumPromoteLevel)
                 {
                     continue;
