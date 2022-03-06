@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using NLog;
 using Torch.API.Managers;
 using Torch.Commands;
 using Torch.Commands.Permissions;
@@ -16,6 +17,8 @@ namespace Utils.Torch
 {
     public static class CommandModuleUtils
     {
+        static readonly ILogger Log = LogManager.GetCurrentClassLogger();
+
         public static void EnsureInvokedByPlayer(this CommandModule self)
         {
             self.Context.Player.ThrowIfNull("Must be called by a player");
@@ -148,11 +151,18 @@ namespace Utils.Torch
                 return;
             }
 
-            if (promoLevel == MyPromoteLevel.Admin &&
-                self.Context.Args.TryGetElementAt(1, out var arg))
+            Log.Info(self.Context.Args.ToStringSeq);
+
+            if (self.Context.Args.TryGetElementAt(1, out var arg))
             {
+                if (promoLevel < MyPromoteLevel.Moderator)
+                {
+                    throw new InvalidOperationException("not moderator");
+                }
+
                 var newValue = ParsePrimitive(property.PropertyType, arg);
                 property.SetValue(config, newValue);
+                Log.Info($"set value via config command: {config} {newValue}");
             }
 
             var value = property.GetValue(config);
