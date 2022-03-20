@@ -14,6 +14,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)CollectionUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)CsvDb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DebugUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DictionaryPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisposableCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DisposableUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExpirationObserver.cs" />
