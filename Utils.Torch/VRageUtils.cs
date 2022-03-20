@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Havok;
+using NLog;
 using Sandbox;
 using Sandbox.Engine.Physics;
 using Sandbox.Game.Entities;
@@ -23,6 +24,8 @@ namespace Utils.Torch
 {
     internal static class VRageUtils
     {
+        static readonly ILogger Log = LogManager.GetCurrentClassLogger();
+
         public static string ToShortString(this Vector3D self)
         {
             return $"X:{self.X:0.0} Y:{self.Y:0.0} Z:{self.Z:0.0}";
@@ -181,7 +184,7 @@ namespace Utils.Torch
                 throw new Exception($"not main thread; yours: {self.ManagedThreadId}, main: {MySandboxGame.Static.UpdateThread.ManagedThreadId}");
             }
         }
-        
+
         public static Task MoveToGameLoop(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -313,31 +316,28 @@ namespace Utils.Torch
 
         public static bool TryGetSeatedGrid(this IMyPlayer self, out MyCubeGrid selectedGrid)
         {
-            if (self.Controller?.ControlledEntity?.Entity is MyCubeGrid seatedGrid)
-            {
-                selectedGrid = seatedGrid;
-                return true;
-            }
-
-            selectedGrid = null;
-            return false;
+            var seat = self.Controller?.ControlledEntity?.Entity;
+            selectedGrid = seat?.GetParentEntityOfType<MyCubeGrid>();
+            return selectedGrid != null;
         }
 
         public static bool TryGetGridLookedAt(this IMyPlayer self, out MyCubeGrid selectedGrid)
         {
             Thread.CurrentThread.ThrowIfNotSessionThread();
 
-            var from = self.GetPosition();
-            var vec = (self.Character.AimedPoint - from).Normalize();
-            var to = from + vec * 1000;
             var hits = new List<MyPhysics.HitInfo>();
+            var from = self.GetPosition();
+            var look = ((MyPlayer)self).Character.GetHeadMatrix(true).Forward;
+            var to = from + look * 100;
             MyPhysics.CastRay(from, to, hits);
+            
             foreach (var hit in hits)
             {
                 var hitEntity = hit.HkHitInfo.GetHitEntity();
-                if (hitEntity is MyCubeGrid hitGrid)
+                Log.Info(hitEntity);
+                if (hitEntity.GetParentEntityOfType<MyCubeGrid>() is { } grid)
                 {
-                    selectedGrid = hitGrid;
+                    selectedGrid = grid;
                     return true;
                 }
             }

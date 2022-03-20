@@ -31,6 +31,5 @@
     <Compile Include="$(MSBuildThisFileDirectory)TaskUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafeThrottle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UpdateObserver.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)UserFacingException.cs" />
   </ItemGroup>
 </Project>
