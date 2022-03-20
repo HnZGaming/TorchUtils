@@ -238,6 +238,8 @@ namespace Utils.Torch
 
         public static bool TryGetCubeGridById(long gridId, out MyCubeGrid grid)
         {
+            Thread.CurrentThread.ThrowIfNotSessionThread();
+            
             if (!MyEntityIdentifier.TryGetEntity(gridId, out var entity))
             {
                 grid = null;

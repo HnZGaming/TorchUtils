@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileLoggingConfigurator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Patches\ModAdditionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGpsCollection_PlayerGpss.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReportGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SimDropObserver.cs" />
