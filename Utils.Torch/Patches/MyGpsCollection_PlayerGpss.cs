@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using Sandbox.Game.Multiplayer;
 using Sandbox.Game.Screens.Helpers;
 using Torch.Utils;
@@ -17,7 +16,6 @@ namespace Utils.Torch.Patches
 
         static Dictionary<long, Dictionary<int, MyGps>> GetPlayerGpss(this MyGpsCollection self)
         {
-            Thread.CurrentThread.ThrowIfNotSessionThread();
             return (Dictionary<long, Dictionary<int, MyGps>>)_fieldInfo.GetValue(self);
         }
 

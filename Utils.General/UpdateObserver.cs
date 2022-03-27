@@ -1,45 +1,25 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
-using Sandbox.Game.World;
-using Torch.Managers.PatchManager;
-using Torch.Utils;
 
-namespace Utils.Torch.Patches
+namespace Utils.General
 {
-    [PatchShim]
-    public static class MySession_Update
+    public sealed class UpdateObserver
     {
         static readonly ILogger Log = LogManager.GetCurrentClassLogger();
+        readonly ConcurrentQueue<Action> _actionQueue;
+        readonly List<Action> _actionQueueCopy;
 
-#pragma warning disable 649
-        [ReflectedMethodInfo(typeof(MySession), nameof(MySession.Update))]
-        static readonly MethodInfo _MySessionUpdate;
-
-        [ReflectedMethodInfo(typeof(MySession_Update), nameof(MySessionUpdatePatch))]
-        static readonly MethodInfo _MySessionUpdatePatch;
-#pragma warning restore 649
-
-        static readonly ConcurrentQueue<Action> _actionQueue;
-        static readonly List<Action> _actionQueueCopy;
-
-        static MySession_Update()
+        public UpdateObserver()
         {
             _actionQueue = new ConcurrentQueue<Action>();
             _actionQueueCopy = new List<Action>();
         }
 
-        public static void Patch(PatchContext ptx)
-        {
-            ptx.GetPattern(_MySessionUpdate).Suffixes.Add(_MySessionUpdatePatch);
-        }
-
-        // called in the main loop
-        public static void MySessionUpdatePatch()
+        public void Update()
         {
             _actionQueueCopy.Clear(); // just to be sure
 
@@ -64,9 +44,9 @@ namespace Utils.Torch.Patches
             _actionQueueCopy.Clear();
         }
 
-        public static Task MoveToGameLoop(CancellationToken canceller)
+        public Task OnUpdate(CancellationToken cancellationToken)
         {
-            canceller.ThrowIfCancellationRequested();
+            cancellationToken.ThrowIfCancellationRequested();
 
             var taskSource = new TaskCompletionSource<byte>();
 
@@ -74,7 +54,7 @@ namespace Utils.Torch.Patches
             {
                 try
                 {
-                    canceller.ThrowIfCancellationRequested();
+                    cancellationToken.ThrowIfCancellationRequested();
                     taskSource.TrySetResult(0);
                 }
                 catch (Exception e)
