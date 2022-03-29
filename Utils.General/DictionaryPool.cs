@@ -7,7 +7,7 @@ namespace Utils.General
     {
         static readonly ConcurrentBag<Dictionary<K, V>> _pool = new();
 
-        public static Dictionary<K, V> Create()
+        public static Dictionary<K, V> Get()
         {
             if (_pool.TryTake(out var e)) return e;
             return new Dictionary<K, V>();

@@ -366,5 +366,16 @@ namespace Utils.General
                 //pass
             }
         }
+
+        public static IEnumerable<U> WhereAssignable<T, U>(this IEnumerable<T> self)
+        {
+            foreach (var t in self)
+            {
+                if (t is U u)
+                {
+                    yield return u;
+                }
+            }
+        }
     }
 }

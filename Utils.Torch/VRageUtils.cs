@@ -239,7 +239,7 @@ namespace Utils.Torch
         public static bool TryGetCubeGridById(long gridId, out MyCubeGrid grid)
         {
             Thread.CurrentThread.ThrowIfNotSessionThread();
-            
+
             if (!MyEntityIdentifier.TryGetEntity(gridId, out var entity))
             {
                 grid = null;
@@ -332,7 +332,7 @@ namespace Utils.Torch
             var look = ((MyPlayer)self).Character.GetHeadMatrix(true).Forward;
             var to = from + look * 100;
             MyPhysics.CastRay(from, to, hits);
-            
+
             foreach (var hit in hits)
             {
                 var hitEntity = hit.HkHitInfo.GetHitEntity();

@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ExpirationObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpUrlBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LangUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ListPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LoggerUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MathUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NullOr.cs" />
