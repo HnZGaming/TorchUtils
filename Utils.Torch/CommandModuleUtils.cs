@@ -53,7 +53,7 @@ namespace Utils.Torch
         public static void ShowCommands(this CommandModule self)
         {
             var level = self.Context.Player?.PromoteLevel ?? MyPromoteLevel.Admin;
-            var commands = self.GetCommandMethods(level).ToArray();
+            var commands = GetCommandMethods(self.GetType(), level).ToArray();
             if (!commands.Any())
             {
                 self.Context.Respond("No accessible commands found");
@@ -94,10 +94,11 @@ namespace Utils.Torch
             self.Context.Respond(msgBuilder.ToString());
         }
 
-        static IEnumerable<CommandAttribute> GetCommandMethods(this CommandModule self, MyPromoteLevel maxLevel)
+        public static IEnumerable<CommandAttribute> GetCommandMethods(Type type, MyPromoteLevel maxLevel)
         {
-            foreach (var method in self.GetType().GetMethods())
+            foreach (var method in type.GetMethods())
             {
+                Log.Info($"COMMAND LIST {method}");
                 if (!method.TryGetAttribute<CommandAttribute>(out var command)) continue;
                 if (!method.TryGetAttribute<PermissionAttribute>(out var permission)) continue;
                 if (permission.PromoteLevel > maxLevel) continue;
