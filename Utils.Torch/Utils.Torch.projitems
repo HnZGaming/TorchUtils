@@ -18,7 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)GpsCleaner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GpsCleanerCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ModAdditionPatch.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGpsCollection_PlayerGpss.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReportGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SimDropObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TorchPluginUtils.cs" />
