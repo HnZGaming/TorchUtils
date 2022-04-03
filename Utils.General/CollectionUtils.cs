@@ -377,5 +377,13 @@ namespace Utils.General
                 }
             }
         }
+
+        public static void EnqueueAll<T>(this Queue<T> self, IEnumerable<T> others)
+        {
+            foreach (var other in others)
+            {
+                self.Enqueue(other);
+            }
+        }
     }
 }
