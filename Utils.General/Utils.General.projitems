@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ObjectPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProcessUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReflectionUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SetPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StringFloatConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StupidDb.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)StupidDbIdAttribute.cs" />

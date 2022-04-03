@@ -22,5 +22,17 @@ namespace Utils.General
                 default: return $"{order}th";
             }
         }
+
+        public static bool TryGetCharacterAt(this string self, int index, out char character)
+        {
+            if (self.Length > index)
+            {
+                character = self[index];
+                return true;
+            }
+
+            character = default;
+            return false;
+        }
     }
 }

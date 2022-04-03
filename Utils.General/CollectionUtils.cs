@@ -94,6 +94,19 @@ namespace Utils.General
             return false;
         }
 
+        public static bool ContainsAll<T>(this ISet<T> self, IEnumerable<T> values)
+        {
+            foreach (var value in values)
+            {
+                if (!self.Contains(value))
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public static void Increment<K>(this IDictionary<K, int> self, K key)
         {
             self.TryGetValue(key, out var value);

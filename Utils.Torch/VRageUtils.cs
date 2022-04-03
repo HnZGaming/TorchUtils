@@ -18,6 +18,7 @@ using VRage.Game.Entity;
 using VRage.Game.ModAPI;
 using VRage.Game.ObjectBuilders.Components;
 using VRage.ModAPI;
+using VRage.ObjectBuilders;
 using VRageMath;
 
 namespace Utils.Torch
@@ -435,6 +436,19 @@ namespace Utils.Torch
             {
                 yield return node.NodeData;
             }
+        }
+
+        public static bool TypeNameEquals(this MyObjectBuilderType self, string typeName)
+        {
+            var selfTypeName = self.ToString(); // doesn't allocate
+            for (var i = 0; i < typeName.Length; i++)
+            {
+                if (!selfTypeName.TryGetCharacterAt(i + 16, out var c0)) return false;
+                var c1 = typeName[i];
+                if (c1 != c0) return false;
+            }
+
+            return true;
         }
 
         public static double GetValueAtIndex(this Vector3D self, int index) => index switch
