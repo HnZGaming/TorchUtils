@@ -33,6 +33,18 @@ namespace Utils.Torch
             return Path.Combine(self.StoragePath, relativeFilePath);
         }
 
+        public static void OnSessionStateChanged(this TorchPluginBase self, TorchSessionState state, Action f)
+        {
+            var sessionManager = self.Torch.Managers.GetManager<TorchSessionManager>();
+            sessionManager.SessionStateChanged += (_, s) =>
+            {
+                if (s == state)
+                {
+                    f();
+                }
+            };
+        }
+
         public static void ListenOnGameLoaded(this TorchPluginBase self, Action f)
         {
             var sessionManager = self.Torch.Managers.GetManager<TorchSessionManager>();
