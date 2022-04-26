@@ -14,11 +14,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)CommandOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ConfigPropertyIgnoreAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CubeBlockAddRemoveObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)CubeBlockMappingCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileLoggingConfigurator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GpsCleaner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GpsCleanerCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ISceneEntityAddRemoveObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ModAdditionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReportGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SceneEntityCachingSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SimDropObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TorchPluginUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TorchUtils.cs" />
