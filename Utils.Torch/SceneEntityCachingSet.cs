@@ -30,7 +30,6 @@ namespace HNZ.Utils
         void OnEntityAdd(T obj)
         {
             _entities.Add(obj);
-            Log.Info($"add: {obj.DisplayName}");
         }
 
         void OnEntityRemove(T obj)

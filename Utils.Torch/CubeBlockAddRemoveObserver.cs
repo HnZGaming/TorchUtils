@@ -30,8 +30,6 @@ namespace HNZ.Utils
         {
             if (obj is MyCubeGrid grid)
             {
-                Log.Info($"grid added: {grid.DisplayName}");
-
                 grid.OnBlockAdded += OnGridBlockAdded;
                 grid.OnBlockRemoved += OnGridBlockRemoved;
 
@@ -60,7 +58,6 @@ namespace HNZ.Utils
         {
             if (block.FatBlock is T fatBlock)
             {
-                Log.Info($"block added: {fatBlock.DisplayName}");
                 OnAdded?.Invoke(fatBlock);
             }
         }
