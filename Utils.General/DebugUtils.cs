@@ -6,9 +6,9 @@ namespace Utils.General
 {
     internal static class DebugUtils
     {
-        public static string ToStringSeq<T>(this IEnumerable<T> self)
+        public static string ToStringSeq<T>(this IEnumerable<T> self, string separator = ", ")
         {
-            return $"[{string.Join(", ", self)}]";
+            return $"[{string.Join(separator, self)}]";
         }
 
         public static void ThrowIfNull(this object self, string msg)
