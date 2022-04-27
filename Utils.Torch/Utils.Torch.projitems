@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GpsCleanerCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISceneEntityAddRemoveObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ModAdditionPatch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProtobufUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ReportGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SceneEntityCachingSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SimDropObserver.cs" />
