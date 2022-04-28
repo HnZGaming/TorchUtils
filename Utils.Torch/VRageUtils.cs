@@ -206,9 +206,9 @@ namespace Utils.Torch
             return taskSrc.Task;
         }
 
-        public static void SendAddGps(this MyGpsCollection self, long identityId, MyGps gps, bool playSound)
+        public static void SendAddGpsRequest(this MyGpsCollection self, long identityId, MyGps gps, bool playSound)
         {
-            self.SendAddGps(identityId, ref gps, gps.EntityId, playSound);
+            self.SendAddGpsRequest(identityId, ref gps, gps.EntityId, playSound);
         }
 
         public static bool TryGetFactionByPlayerId(this MyFactionCollection self, long playerId, out IMyFaction faction)
