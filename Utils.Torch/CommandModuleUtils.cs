@@ -153,7 +153,7 @@ namespace Utils.Torch
                 return;
             }
 
-            Log.Info(self.Context.Args.ToStringSeq);
+            Log.Info(self.Context.Args.ToStringSeq());
 
             if (self.Context.Args.TryGetElementAt(1, out var arg))
             {

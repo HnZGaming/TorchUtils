@@ -34,5 +34,26 @@ namespace Utils.General
             character = default;
             return false;
         }
+
+        // https://stackoverflow.com/questions/298830/split-string-containing-command-line-parameters-into-string-in-c-sharp
+        public static string[] ParseArguments(string commandLine)
+        {
+            var paramChars = commandLine.ToCharArray();
+            var inQuote = false;
+            for (var index = 0; index < paramChars.Length; index++)
+            {
+                if (paramChars[index] == '"')
+                {
+                    inQuote = !inQuote;
+                }
+
+                if (!inQuote && paramChars[index] == ' ')
+                {
+                    paramChars[index] = '\n';
+                }
+            }
+
+            return new string(paramChars).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
+        }
     }
 }

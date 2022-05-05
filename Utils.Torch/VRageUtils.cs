@@ -438,6 +438,16 @@ namespace Utils.Torch
             }
         }
 
+        public static bool EveryFrame(int frameCount)
+        {
+            return MySession.Static.GameplayFrameCounter % frameCount == 0;
+        }
+
+        public static bool EverySeconds(double seconds)
+        {
+            return MySession.Static.GameplayFrameCounter % (int)(60 * seconds) == 0;
+        }
+
         public static bool TypeNameEquals(this MyObjectBuilderType self, string typeName)
         {
             var selfTypeName = self.ToString(); // doesn't allocate
