@@ -14,6 +14,18 @@ namespace Utils.General
             {
                 await self;
             }
+            catch (TaskCanceledException)
+            {
+                // pass
+            }
+            catch (OperationCanceledException)
+            {
+                // pass
+            }
+            catch (ObjectDisposedException)
+            {
+                // pass
+            }
             catch (Exception e)
             {
                 logger.Error(e);

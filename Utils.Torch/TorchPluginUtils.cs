@@ -23,11 +23,6 @@ namespace Utils.Torch
             XmlUtils.SaveOrCreateXmlFile(filePath, content);
         }
 
-        public static string MakeConfigFilePath(this TorchPluginBase self)
-        {
-            return self.MakeFilePath($"{self.GetType().Name}.cfg");
-        }
-
         public static string MakeFilePath(this TorchPluginBase self, string relativeFilePath)
         {
             return Path.Combine(self.StoragePath, relativeFilePath);
