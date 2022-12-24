@@ -27,6 +27,8 @@ namespace DefaultNamespace
             _throttle = new Throttle<T>();
         }
 
+        public int Count { get; private set; }
+
         public void Close()
         {
             _observer.OnAdded -= OnEntityAdded;
@@ -39,6 +41,7 @@ namespace DefaultNamespace
             }
 
             _throttle.Clear();
+            Count = 0;
         }
 
         void OnEntityAdded(E block)
@@ -47,6 +50,7 @@ namespace DefaultNamespace
             lock (_mappedEntities)
             {
                 _mappedEntities.Add(block.EntityId, mappedBlock);
+                Count += 1;
             }
         }
 
@@ -55,6 +59,7 @@ namespace DefaultNamespace
             lock (_mappedEntities)
             {
                 _mappedEntities.Remove(block.EntityId);
+                Count -= 1;
             }
         }
 

@@ -6,9 +6,13 @@ namespace Utils.General
 {
     internal static class DebugUtils
     {
-        public static string ToStringSeq<T>(this IEnumerable<T> self, string separator = ", ")
+        public static string ToStringSeq<T>(this IEnumerable<T> self)
         {
-            return $"[{string.Join(separator, self)}]";
+            return $"[{string.Join(", ", self)}]";
+        }
+        public static string ToStringDic<K, V>(this IReadOnlyDictionary<K, V> self)
+        {
+            return $"{{{string.Join(", ", self.Select(e => $"{e.Key}: {e.Value}"))}}}";
         }
 
         public static void ThrowIfNull(this object self, string msg)

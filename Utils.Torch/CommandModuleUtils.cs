@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using NLog;
+using Sandbox.Game;
 using Torch.API.Managers;
 using Torch.Commands;
 using Torch.Commands.Permissions;
@@ -266,6 +268,31 @@ namespace Utils.Torch
             if (type == typeof(long)) return long.Parse(value);
             if (type == typeof(ulong)) return ulong.Parse(value);
             throw new ArgumentException($"unsupported type: {type}");
+        }
+
+        public static void ShowUrl(this CommandModule self, string url)
+        {
+            if (self.Context.Player?.IdentityId is { } playerId)
+            {
+                self.Context.Respond("Opening wiki on the steam overlay");
+                var steamOverlayUrl = MakeSteamOverlayUrl(url);
+                MyVisualScriptLogicProvider.OpenSteamOverlay(steamOverlayUrl, playerId);
+            }
+            else if (self.Context.GetType() == typeof(ConsoleCommandContext))
+            {
+                self.Context.Respond("Opening wiki on the default web browser");
+                Process.Start(url);
+            }
+            else
+            {
+                self.Context.Respond(url);
+            }
+
+            static string MakeSteamOverlayUrl(string baseUrl)
+            {
+                const string steamOverlayFormat = "https://steamcommunity.com/linkfilter/?url={0}";
+                return string.Format(steamOverlayFormat, baseUrl);
+            }
         }
     }
 }

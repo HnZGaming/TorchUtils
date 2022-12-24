@@ -55,5 +55,17 @@ namespace Utils.General
 
             return new string(paramChars).Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
         }
+
+        public static bool TryFindType(string typeName, out Type t)
+        {
+            foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                t = a.GetType(typeName);
+                if (t != null) return true;
+            }
+
+            t = default;
+            return false;
+        }
     }
 }
