@@ -15,13 +15,13 @@ namespace Utils.General
         readonly ILogger Log = LogManager.GetCurrentClassLogger();
         readonly List<T> _queuedElements;
         readonly TimeSpan _throttleInterval;
-        readonly Action<IEnumerable<T>> _onFlush;
+        readonly Action<IReadOnlyList<T>> _onFlush;
 
         CancellationTokenSource _cancellationTokenSource;
 
         public ThreadSafeThrottle(
             TimeSpan throttleInterval,
-            Action<IEnumerable<T>> onFlush)
+            Action<IReadOnlyList<T>> onFlush)
         {
             _throttleInterval = throttleInterval;
             _onFlush = onFlush;
