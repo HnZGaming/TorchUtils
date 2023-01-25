@@ -14,10 +14,10 @@ namespace Utils.Torch
 
         void OnMyCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            foreach (var remotePort in this)
+            foreach (var element in this)
             {
-                PropertyChangedEventManager.RemoveHandler(remotePort, OnRemotePortPropertyChanged, "");
-                PropertyChangedEventManager.AddHandler(remotePort, OnRemotePortPropertyChanged, "");
+                PropertyChangedEventManager.RemoveHandler(element, OnRemotePortPropertyChanged, "");
+                PropertyChangedEventManager.AddHandler(element, OnRemotePortPropertyChanged, "");
             }
         }
 
