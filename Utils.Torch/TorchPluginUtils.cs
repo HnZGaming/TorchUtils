@@ -28,6 +28,16 @@ namespace Utils.Torch
             return Path.Combine(self.StoragePath, relativeFilePath);
         }
 
+        public static Persistent<T> LoadPersistent<T>(string filePath, T defaultValue) where T : new()
+        {
+            if (!File.Exists(filePath))
+            {
+                XmlUtils.SaveOrCreateXmlFile(filePath, defaultValue);
+            }
+
+            return Persistent<T>.Load(filePath);
+        }
+
         public static void OnSessionStateChanged(this TorchPluginBase self, TorchSessionState state, Action f)
         {
             var sessionManager = self.Torch.Managers.GetManager<TorchSessionManager>();
