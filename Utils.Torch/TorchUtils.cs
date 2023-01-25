@@ -34,5 +34,16 @@ namespace Utils.Torch
         {
             self.SendMessageAsOther(name, message, targetSteamId: targetSteamId);
         }
+
+        public static string ToReadableString(this MyPromoteLevel level) => level switch
+        {
+            MyPromoteLevel.None => "Anyone",
+            MyPromoteLevel.Scripter => "Scripter",
+            MyPromoteLevel.Moderator => "Moderator",
+            MyPromoteLevel.SpaceMaster => "SpaceMaster",
+            MyPromoteLevel.Admin => "Admin",
+            MyPromoteLevel.Owner => "Owner",
+            _ => "?"
+        };
     }
 }

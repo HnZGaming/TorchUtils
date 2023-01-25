@@ -372,18 +372,6 @@ namespace Utils.General
             }
         }
 
-        public static bool TryDequeue<T>(this Queue<T> self, out T element)
-        {
-            if (self.Count == 0)
-            {
-                element = default;
-                return false;
-            }
-
-            element = self.Dequeue();
-            return true;
-        }
-
         public static void Clear<T>(this ConcurrentQueue<T> self)
         {
             while (self.TryDequeue(out _))
