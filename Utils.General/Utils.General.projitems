@@ -35,5 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ThreadSafeThrottle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Throttle.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UpdateObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WpfUtils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)XmlUtils.cs" />
   </ItemGroup>
 </Project>
