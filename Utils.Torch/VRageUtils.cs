@@ -27,6 +27,8 @@ namespace Utils.Torch
     {
         static readonly ILogger Log = LogManager.GetCurrentClassLogger();
 
+        public static ulong CurrentGameFrameCount => MySandboxGame.Static.SimulationFrameCounter;
+
         public static string ToShortString(this Vector3D self)
         {
             return $"X:{self.X:0.0} Y:{self.Y:0.0} Z:{self.Z:0.0}";
@@ -170,8 +172,6 @@ namespace Utils.Torch
         {
             return entity.GetParentEntityOfType<T>() == entity;
         }
-
-        public static ulong CurrentGameFrameCount => MySandboxGame.Static.SimulationFrameCounter;
 
         public static bool IsSessionThread(this Thread self)
         {
@@ -511,6 +511,20 @@ namespace Utils.Torch
                 default:
                     throw new IndexOutOfRangeException();
             }
+        }
+
+        public static (double Size, Vector3D Center) GetBound(IEnumerable<Vector3D> positions)
+        {
+            var minPos = positions.Aggregate(Vector3D.MaxValue, (s, n) => Vector3D.Min(s, n));
+            var maxPos = positions.Aggregate(Vector3D.MinValue, (s, n) => Vector3D.Max(s, n));
+            var size = Vector3D.Distance(minPos, maxPos);
+            var center = (minPos + maxPos) / 2;
+            return (size, center);
+        }
+
+        public static string MakeGpsString(string name, Vector3D coord)
+        {
+            return $":GPS:{name}:{coord.X:0}:{coord.Y:0}:{coord.Z:0}:";
         }
     }
 }

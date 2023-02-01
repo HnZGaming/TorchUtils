@@ -41,6 +41,11 @@ namespace Utils.General
             return false;
         }
 
+        public static IEnumerable<T> Unwrap<T>(this IEnumerable<T?> self) where T : struct
+        {
+            return self.Where(e => e.HasValue).Select(e => e.Value);
+        }
+
         public static bool TryGetFirst<T>(this IReadOnlyList<T> self, out T foundValue)
         {
             return self.TryGetElementAt(0, out foundValue);
@@ -396,6 +401,25 @@ namespace Utils.General
             foreach (var other in others)
             {
                 self.Enqueue(other);
+            }
+        }
+
+        public static Stack<T> Pop<T>(this Stack<T> self, int count)
+        {
+            var sub = new Stack<T>();
+            for (var i = 0; i < count; i++)
+            {
+                sub.Push(self.Pop());
+            }
+
+            return sub;
+        }
+
+        public static void PushAll<T>(this Stack<T> self, IEnumerable<T> others)
+        {
+            foreach (var other in others)
+            {
+                self.Push(other);
             }
         }
     }

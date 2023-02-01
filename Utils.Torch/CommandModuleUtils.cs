@@ -39,7 +39,7 @@ namespace Utils.Torch
             }
         }
 
-        public static async void CatchAndReport(this CommandModule self, Func<Task> f)
+        public static async void CatchAndReportAsync(this CommandModule self, Func<Task> f)
         {
             try
             {

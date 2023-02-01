@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
+using Torch.Managers.PatchManager.MSIL;
 
 namespace Utils.General
 {
@@ -11,19 +13,24 @@ namespace Utils.General
 
         public const BindingFlags StaticFlags = BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public;
 
-        public static MethodInfo Method(this Type type, string name, BindingFlags flags)
+        public static MethodInfo GetMethod(this Type type, string name, BindingFlags flags)
         {
             return type.GetMethod(name, flags) ?? throw new Exception($"Couldn't find method {name} on {type}");
         }
 
-        public static MethodInfo InstanceMethod(this Type t, string name)
+        public static MethodInfo[] GetMethods(this Type type, string name, BindingFlags flags)
         {
-            return Method(t, name, InstanceFlags);
+            return type.GetMethods(flags).Where(m => m.Name == name).ToArray();
         }
 
-        public static MethodInfo StaticMethod(this Type t, string name)
+        public static MethodInfo GetInstanceMethod(this Type t, string name)
         {
-            return Method(t, name, StaticFlags);
+            return GetMethod(t, name, InstanceFlags);
+        }
+
+        public static MethodInfo GetStaticMethod(this Type t, string name)
+        {
+            return GetMethod(t, name, StaticFlags);
         }
 
         static Type[] GetTypesSafe(this Assembly self)
@@ -76,13 +83,28 @@ namespace Utils.General
             {
                 if (customAttribute.GetType() == typeof(A))
                 {
-                    attribute = (A) customAttribute;
+                    attribute = (A)customAttribute;
                     return true;
                 }
             }
 
             attribute = default;
             return false;
+        }
+
+        public static bool TryGetInlineMethod(MsilInstruction insn, out MethodBase method)
+        {
+            method = default;
+
+            // skip any instructions other than method calls
+            if (insn.OpCode != OpCodes.Call && insn.OpCode != OpCodes.Callvirt) return false;
+
+            // shouldn't happen but anyway
+            if (insn.Operand is not MsilOperandInline<MethodBase> methodOperand) return false;
+
+            // skip any calls other than one of target calls
+            method = methodOperand.Value;
+            return true;
         }
     }
 }
