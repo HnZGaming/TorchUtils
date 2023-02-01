@@ -12,18 +12,6 @@ namespace Utils.Torch
 {
     internal static class TorchPluginUtils
     {
-        public static bool TryFindConfigFile<T>(this TorchPluginBase self, string fileName, out T foundConfig) where T : class
-        {
-            var filePath = Path.Combine(self.StoragePath, fileName);
-            return XmlUtils.TryLoadXmlFile(filePath, out foundConfig);
-        }
-
-        public static void CreateConfigFile<T>(this TorchPluginBase self, string fileName, T content)
-        {
-            var filePath = Path.Combine(self.StoragePath, fileName);
-            XmlUtils.SaveOrCreateXmlFile(filePath, content);
-        }
-
         public static string MakeFilePath(this TorchPluginBase self, string relativeFilePath)
         {
             return Path.Combine(self.StoragePath, relativeFilePath);
@@ -45,30 +33,6 @@ namespace Utils.Torch
             sessionManager.SessionStateChanged += (_, s) =>
             {
                 if (s == state)
-                {
-                    f();
-                }
-            };
-        }
-
-        public static void ListenOnGameLoaded(this TorchPluginBase self, Action f)
-        {
-            var sessionManager = self.Torch.Managers.GetManager<TorchSessionManager>();
-            sessionManager.SessionStateChanged += (session, state) =>
-            {
-                if (state == TorchSessionState.Loaded)
-                {
-                    f();
-                }
-            };
-        }
-
-        public static void ListenOnGameUnloading(this TorchPluginBase self, Action f)
-        {
-            var sessionManager = self.Torch.Managers.GetManager<TorchSessionManager>();
-            sessionManager.SessionStateChanged += (session, state) =>
-            {
-                if (state == TorchSessionState.Unloading)
                 {
                     f();
                 }
