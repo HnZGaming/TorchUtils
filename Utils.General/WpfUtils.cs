@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿#if WPF
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -22,3 +23,4 @@ namespace Utils.General
         }
     }
 }
+#endif
