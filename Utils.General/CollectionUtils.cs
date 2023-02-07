@@ -385,6 +385,18 @@ namespace Utils.General
             }
         }
 
+        public static bool TryDequeue<T>(this Queue<T> self, out T value)
+        {
+            if (self.Count == 0)
+            {
+                value = default;
+                return false;
+            }
+
+            value = self.Dequeue();
+            return true;
+        }
+
         public static IEnumerable<U> WhereAssignable<T, U>(this IEnumerable<T> self)
         {
             foreach (var t in self)

@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+#if TORCH
 using System.Reflection.Emit;
 using Torch.Managers.PatchManager.MSIL;
+#endif
 
 namespace Utils.General
 {
@@ -92,6 +94,7 @@ namespace Utils.General
             return false;
         }
 
+#if TORCH
         public static bool TryGetInlineMethod(MsilInstruction insn, out MethodBase method)
         {
             method = default;
@@ -106,5 +109,6 @@ namespace Utils.General
             method = methodOperand.Value;
             return true;
         }
+#endif
     }
 }

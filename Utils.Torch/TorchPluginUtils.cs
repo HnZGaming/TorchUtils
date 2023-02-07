@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Resources;
 using System.Windows.Controls;
 using Torch;
 using Torch.API.Managers;
@@ -37,6 +38,12 @@ namespace Utils.Torch
                     f();
                 }
             };
+        }
+
+        public static TorchSessionState GetCurrentSessionState(this TorchPluginBase self)
+        {
+            var sessionManager = self.Torch.Managers.GetManager<TorchSessionManager>();
+            return sessionManager.CurrentSession.State;
         }
 
         public static UserControl GetOrCreateUserControl<T>(this Persistent<T> self, ref UserControl userControl) where T : class, new()
