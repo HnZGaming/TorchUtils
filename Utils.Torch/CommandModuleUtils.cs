@@ -17,7 +17,7 @@ using VRageMath;
 
 namespace Utils.Torch
 {
-    public static class CommandModuleUtils
+    internal static class CommandModuleUtils
     {
         static readonly ILogger Log = LogManager.GetCurrentClassLogger();
 
