@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Utils.General
 {
@@ -66,6 +67,11 @@ namespace Utils.General
 
             t = default;
             return false;
+        }
+
+        public static double FromStopwatchTickToMs(long time)
+        {
+            return time * 1000.0D / Stopwatch.Frequency;
         }
     }
 }

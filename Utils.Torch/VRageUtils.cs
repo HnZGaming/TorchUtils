@@ -526,5 +526,10 @@ namespace Utils.Torch
         {
             return $":GPS:{name}:{coord.X:0}:{coord.Y:0}:{coord.Z:0}:";
         }
+
+        public static Vector3D GetPosition(this IMyEntity self)
+        {
+            return self.PositionComp.GetPosition();
+        }
     }
 }
