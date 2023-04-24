@@ -73,6 +73,16 @@ namespace Utils.General
             return self.TryGetFirst(out var t) ? t : defaultValue;
         }
 
+        public static T? GetFirstOrNull<T>(this IEnumerable<T> self) where T : struct
+        {
+            if (self.TryGetFirst(out var value))
+            {
+                return value;
+            }
+
+            return null;
+        }
+
         public static T GetElementAtIndexOrElse<T>(this IReadOnlyList<T> self, int index, T defaultValue)
         {
             return self.TryGetElementAt(index, out var e) ? e : defaultValue;
