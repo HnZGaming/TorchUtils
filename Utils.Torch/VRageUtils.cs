@@ -419,7 +419,8 @@ namespace Utils.Torch
         public static IEnumerable<IMyEntity> GetEntities(this HkWorld world)
         {
             var entities = new List<IMyEntity>();
-            foreach (var rigidBody in world.RigidBodies)
+            var rigidbodies = world.RigidBodies.ToList();
+            foreach (var rigidBody in rigidbodies)
             {
                 var body = rigidBody.GetBody();
                 var entity = body.Entity;
