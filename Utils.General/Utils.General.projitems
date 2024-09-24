@@ -19,6 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DisposableUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ExpirationObserver.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)HttpUrlBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IsExternalInit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LangUtils.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ListPool.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)LoggerUtils.cs" />
