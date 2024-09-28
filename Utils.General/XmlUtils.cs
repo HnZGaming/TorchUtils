@@ -29,5 +29,16 @@ namespace Utils.General
                 serializer.Serialize(file, content);
             }
         }
+
+        public static string SerializeXml<T>(T content)
+        {
+            using var writer = new MemoryStream();
+            var serializer = new XmlSerializer(typeof(T));
+            serializer.Serialize(writer, content);
+            writer.Position = 0;
+
+            using var reader = new StreamReader(writer);
+            return reader.ReadToEnd();
+        }
     }
 }
