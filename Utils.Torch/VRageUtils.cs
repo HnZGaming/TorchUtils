@@ -189,6 +189,12 @@ namespace Utils.Torch
         public static Task MoveToGameLoop(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
+            
+            if (MyAPIGateway.Utilities == null)
+            {
+                throw new InvalidOperationException("Attempted to move to game loop but game has stopped");
+            }
+            
             var taskSrc = new TaskCompletionSource<byte>();
             MyAPIGateway.Utilities.InvokeOnGameThread(() =>
             {
