@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Havok;
@@ -189,6 +190,12 @@ namespace Utils.Torch
         public static Task MoveToGameLoop(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
+
+            if (MyAPIGateway.Utilities == null)
+            {
+                throw new InvalidOperationException("Attempted to move to game loop but game has stopped");
+            }
+
             var taskSrc = new TaskCompletionSource<byte>();
             MyAPIGateway.Utilities.InvokeOnGameThread(() =>
             {
@@ -523,9 +530,22 @@ namespace Utils.Torch
             return (size, center);
         }
 
-        public static string MakeGpsString(string name, Vector3D coord)
+        public static string MakeGpsString(string name, Vector3D coord, string color)
         {
-            return $":GPS:{name}:{coord.X:0}:{coord.Y:0}:{coord.Z:0}:";
+            return $"GPS:{name}:{coord.X:0}:{coord.Y:0}:{coord.Z:0}:{color}:";
+        }
+
+        public static (string name, Vector3D coord, string color) GetGpsFromString(string gpsStr)
+        {
+            var pattern = new Regex("GPS:(.+?):(.+?):(.+?):(.+?):(.+?):");
+            var match = pattern.Match(gpsStr);
+            return (
+                match.Groups[1].Value,
+                new Vector3D(
+                    float.Parse(match.Groups[2].Value),
+                    float.Parse(match.Groups[3].Value),
+                    float.Parse(match.Groups[4].Value)),
+                match.Groups[5].Value);
         }
 
         public static Vector3D GetPosition(this IMyEntity self)
