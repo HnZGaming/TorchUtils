@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
-using System.Resources;
 using System.Windows.Controls;
+using Sandbox.Game.World;
 using Torch;
 using Torch.API.Managers;
 using Torch.API.Session;
@@ -30,6 +30,18 @@ namespace Utils.Torch
 
         public static void OnSessionStateChanged(this TorchPluginBase self, TorchSessionState state, Action f)
         {
+            if (state == TorchSessionState.Unloading)
+            {
+                MySession.OnUnloading += f;
+                return;
+            }
+
+            if (state == TorchSessionState.Unloaded)
+            {
+                MySession.OnUnloaded += f;
+                return;
+            }
+            
             var sessionManager = self.Torch.Managers.GetManager<TorchSessionManager>();
             sessionManager.SessionStateChanged += (_, s) =>
             {
