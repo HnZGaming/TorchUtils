@@ -8,7 +8,7 @@ namespace Utils.General
     /// Property type must be string and a row type must contain exactly one ID property.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property)]
-    public sealed class StupidDbIdAttribute : Attribute
+    internal sealed class StupidDbIdAttribute : Attribute
     {
         public static PropertyInfo FindIdProperty<T>()
         {
