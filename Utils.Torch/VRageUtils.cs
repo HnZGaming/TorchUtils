@@ -358,9 +358,9 @@ namespace Utils.Torch
 
         public static bool IsSomeoneNpc(this MyFaction self)
         {
-            foreach (var (id, _) in self.Members)
+            foreach (var p in self.Members)
             {
-                if (Sync.Players.IdentityIsNpc(id)) return true;
+                if (Sync.Players.IdentityIsNpc(p.Key)) return true;
             }
 
             return false;
