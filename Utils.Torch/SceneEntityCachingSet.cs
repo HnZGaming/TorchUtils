@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using DefaultNamespace;
 using NLog;
+using Utils.Torch;
 using VRage.Collections;
 using VRage.Game.ModAPI.Ingame;
 

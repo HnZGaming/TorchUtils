@@ -4,7 +4,7 @@ using Utils.General;
 using VRage.Collections;
 using VRage.Game.ModAPI.Ingame;
 
-namespace DefaultNamespace
+namespace Utils.Torch
 {
     public sealed class CubeBlockMappingCollection<E, T> where E : IMyCubeBlock
     {

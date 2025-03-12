@@ -1,7 +1,7 @@
 ﻿using System;
-using DefaultNamespace;
 using NLog;
 using Sandbox.Game.Entities;
+using Utils.Torch;
 using VRage.Game.Entity;
 using VRage.Game.ModAPI.Ingame;
 
