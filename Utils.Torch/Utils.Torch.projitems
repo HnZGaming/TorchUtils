@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)GpsCleaner.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GpsCleanerCollection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ISceneEntityAddRemoveObserver.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ObservableSet.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\ModAdditionPatch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Patches\MyGpsCollection_PlayerGpss.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ProtobufUtils.cs" />
