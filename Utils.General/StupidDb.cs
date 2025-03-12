@@ -23,7 +23,7 @@ namespace Utils.General
     /// <remarks>
     /// Shouldn't be used to process big data.
     /// </remarks>
-    public sealed class StupidDb<T>
+    internal sealed class StupidDb<T>
     {
         readonly ILogger Log = LogManager.GetCurrentClassLogger();
         readonly string _filePath;

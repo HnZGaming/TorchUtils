@@ -1,6 +1,6 @@
 ﻿namespace Utils.General
 {
-    public sealed class NullOr<T> where T : class
+    internal sealed class NullOr<T> where T : class
     {
         readonly T _instance;
 
@@ -20,7 +20,7 @@
         }
     }
 
-    public static class NullOr
+    internal static class NullOr
     {
         public static NullOr<T> NotNull<T>(T instance) where T : class
         {

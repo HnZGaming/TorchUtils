@@ -27,7 +27,7 @@ namespace Utils.Torch
         {
             switch (e.Action)
             {
-                case NotifyCollectionChangedAction.Add when e.NewItems != null:
+                case NotifyCollectionChangedAction.Add when e.NewItems?.Count > 0:
                 {
                     foreach (T item in e.NewItems)
                     {
@@ -36,7 +36,7 @@ namespace Utils.Torch
 
                     break;
                 }
-                case NotifyCollectionChangedAction.Remove when e.OldItems != null:
+                case NotifyCollectionChangedAction.Remove when e.OldItems?.Count > 0:
                 {
                     foreach (T item in e.OldItems)
                     {
@@ -52,7 +52,7 @@ namespace Utils.Torch
                 }
                 case NotifyCollectionChangedAction.Replace:
                 case NotifyCollectionChangedAction.Move:
-                    break;
+                    throw new NotImplementedException();
                 default:
                     throw new ArgumentOutOfRangeException();
             }

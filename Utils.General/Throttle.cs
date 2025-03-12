@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Utils.General
 {
-    public class Throttle<T>
+    internal class Throttle<T>
     {
         readonly Queue<T> _queue;
 
