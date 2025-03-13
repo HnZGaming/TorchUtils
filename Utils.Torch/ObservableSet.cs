@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace Utils.Torch
 {
-    internal sealed class ObservableSet<T>
+    internal sealed class ObservableSet<T, U>
     {
-        HashSet<T> _self = new();
+        HashSet<U> _self = new();
         ObservableCollection<T> _source;
+        readonly Func<T, U> _selector;
+
+        public ObservableSet(Func<T, U> selector)
+        {
+            _selector = selector;
+        }
 
         public void SetSource(ObservableCollection<T> source)
         {
-            _self = new HashSet<T>(source);
+            _self = new HashSet<U>(source.Select(_selector));
 
             if (_source != null)
             {
@@ -31,7 +38,7 @@ namespace Utils.Torch
                 {
                     foreach (T item in e.NewItems)
                     {
-                        _self.Add(item);
+                        _self.Add(_selector(item));
                     }
 
                     break;
@@ -40,14 +47,14 @@ namespace Utils.Torch
                 {
                     foreach (T item in e.OldItems)
                     {
-                        _self.Remove(item);
+                        _self.Remove(_selector(item));
                     }
 
                     break;
                 }
                 case NotifyCollectionChangedAction.Reset:
                 {
-                    _self = new HashSet<T>(_source);
+                    _self = new HashSet<U>(_source.Select(_selector));
                     break;
                 }
                 case NotifyCollectionChangedAction.Replace:
@@ -58,7 +65,7 @@ namespace Utils.Torch
             }
         }
 
-        public bool Contains(T item)
+        public bool Contains(U item)
         {
             return _self.Contains(item);
         }
