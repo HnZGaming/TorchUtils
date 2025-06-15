@@ -535,7 +535,7 @@ namespace Utils.Torch
             return $"GPS:{name}:{coord.X:0}:{coord.Y:0}:{coord.Z:0}:{color}:";
         }
 
-        public static (string name, Vector3D coord, string color) GetGpsFromString(string gpsStr)
+        public static (string name, Vector3D coord, Color color) GetGpsFromString(string gpsStr)
         {
             var pattern = new Regex("GPS:(.+?):(.+?):(.+?):(.+?):(.+?):");
             var match = pattern.Match(gpsStr);
@@ -545,12 +545,18 @@ namespace Utils.Torch
                     float.Parse(match.Groups[2].Value),
                     float.Parse(match.Groups[3].Value),
                     float.Parse(match.Groups[4].Value)),
-                match.Groups[5].Value);
+                ParseColor(match.Groups[5].Value));
         }
 
         public static Vector3D GetPosition(this IMyEntity self)
         {
             return self.PositionComp.GetPosition();
+        }
+
+        public static Color ParseColor(string str)
+        {
+            var c = (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(str)!;
+            return new Color(c.R, c.G, c.B, c.A);
         }
     }
 }

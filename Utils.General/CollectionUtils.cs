@@ -310,6 +310,17 @@ namespace Utils.General
             return self[key] = new C();
         }
 
+        public static Dictionary<K, HashSet<V>> ToHashSetDictionary<K, V, T>(this IEnumerable<T> self, Func<T, K> toKey, Func<T, V> toElement)
+        {
+            var dic = new Dictionary<K, HashSet<V>>();
+            foreach (var t in self)
+            {
+                dic.Add(toKey(t), toElement(t));
+            }
+
+            return dic;
+        }
+
         public static HashSet<T> ToSet<T>(this IEnumerable<T> self)
         {
             return new HashSet<T>(self);
