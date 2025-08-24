@@ -336,8 +336,9 @@ namespace Utils.Torch
             Thread.CurrentThread.ThrowIfNotSessionThread();
 
             var hits = new List<MyPhysics.HitInfo>();
-            var from = self.GetPosition();
-            var look = ((MyPlayer)self).Character.GetHeadMatrix(true).Forward;
+            var head = ((MyPlayer)self).Character.GetHeadMatrix(true);
+            var from = head.Translation;
+            var look = head.Forward;
             var to = from + look * 100;
             MyPhysics.CastRay(from, to, hits);
 
