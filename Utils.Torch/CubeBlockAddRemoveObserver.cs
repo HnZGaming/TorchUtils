@@ -5,7 +5,7 @@ using Utils.Torch;
 using VRage.Game.Entity;
 using VRage.Game.ModAPI.Ingame;
 
-namespace HNZ.Utils
+namespace Utils.Torch
 {
     public class CubeBlockAddRemoveObserver<T> : ISceneEntityAddRemoveObserver<T> where T : IMyCubeBlock
     {

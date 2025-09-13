@@ -5,7 +5,7 @@ using Utils.Torch;
 using VRage.Collections;
 using VRage.Game.ModAPI.Ingame;
 
-namespace HNZ.Utils
+namespace Utils.Torch
 {
     public sealed class SceneEntityCachingSet<T> : IEnumerable<T> where T : IMyEntity
     {
