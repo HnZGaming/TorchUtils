@@ -6,6 +6,7 @@ namespace Utils.General
     public static class ListPool<T>
     {
         static readonly ConcurrentBag<List<T>> _pool = new();
+        public static readonly List<T> Empty = new();
 
         public static List<T> Get()
         {

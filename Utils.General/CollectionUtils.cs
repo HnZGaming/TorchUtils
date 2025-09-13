@@ -455,5 +455,22 @@ namespace Utils.General
                 self.Push(other);
             }
         }
+
+        public static Dictionary<K, C> ToCollectionDictionary<K, C, V>(this IEnumerable<V> self, Func<V, K> f1, Func<C> f2) where C : ICollection<V>
+        {
+            var d = new Dictionary<K, C>();
+            foreach (var v in self)
+            {
+                var k = f1(v);
+                if (!d.TryGetValue(k, out var c))
+                {
+                    c = d[k] = f2();
+                }
+
+                c.Add(v);
+            }
+
+            return d;
+        }
     }
 }
