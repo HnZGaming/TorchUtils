@@ -213,6 +213,18 @@ namespace Utils.General
             return self.ToDictionary(p => p.Item1, p => p.Item2);
         }
 
+        public static Dictionary<K, V> ToDictionaryIgnoreDuplicates<K, V>(this IEnumerable<V> self, Func<V, K> f)
+        {
+            var d = new Dictionary<K, V>();
+            foreach (var v in self)
+            {
+                var k = f(v);
+                d[k] = v;
+            }
+
+            return d;
+        }
+
         public static IEnumerable<(K Key, V Value)> ToTuples<K, V>(this IReadOnlyDictionary<K, V> self)
         {
             return self.Select(kv => (kv.Key, kv.Value));
